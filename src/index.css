@@ -1,0 +1,282 @@
+/* === Fuentes Google === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');  /* Poppins Light */
+
+/* === Tailwind CSS === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilo global con fuente más delgada */
+* {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.05em;  /* Espaciado más sutil */
+}
+
+h1, h2, h3, .section-title {
+  font-weight: 300;  /* Peso más ligero */
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);  /* Resplandor sutil */
+}
+
+
+/* 🔠 Fuente distinta para títulos */
+h1, h2, h3, .section-title {
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00bfff, #7a00ff);
+  border-radius: 10px;
+}
+
+/* Cursor neón */
+body {
+  cursor: url('/cursor-glow.png'), auto;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* Scrollbar personalizada para la galería */
+#galeria::-webkit-scrollbar {
+  height: 8px;
+}
+#galeria::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #00bfff, #7a00ff);
+  border-radius: 10px;
+}
+
+/* Oculta scrollbar en contenedores horizontales */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 🌌 Efecto hover avanzado para galería */
+.card-hover {
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.card-hover:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 0 30px rgba(122, 0, 255, 0.4),
+              0 0 60px rgba(0, 191, 255, 0.25);
+}
+
+.card-hover img {
+  transition: transform 0.8s ease;
+}
+
+.card-hover:hover img {
+  transform: scale(1.15) rotate3d(1, 1, 0, 4deg);
+}
+
+/* 🔮 Overlay dinámico */
+.card-hover .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.85));
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.card-hover:hover .overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ✨ Texto con brillo */
+.card-hover .overlay h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 191, 255, 0.8),
+               0 0 20px rgba(122, 0, 255, 0.7);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.card-hover:hover .overlay h3 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@keyframes fadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicaciones Tailwind */
+.animate-fadeDown {
+  animation: fadeDown 0.8s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.9s ease-out forwards;
+}
+
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes float {
+  0% { transform: translateY(0px); opacity: 0.6; }
+  50% { transform: translateY(-20px); opacity: 1; }
+  100% { transform: translateY(0px); opacity: 0.6; }
+}
+@keyframes fade-in-slow {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: gradient-text 6s linear infinite;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-fade-in-slow {
+  animation: fade-in-slow 1.8s ease-out forwards;
+}
+.animate-pulse-slow {
+  animation: pulse 4s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes spin-slower {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes star {
+  0% { transform: translateY(0px) scale(1); opacity: 0.6; }
+  50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+}
+
+.animate-gradient-text {
+  background-size: 300% auto;
+  animation: gradient-text 8s ease-in-out infinite;
+}
+.animate-fade-up {
+  animation: fade-up 1.5s ease-out forwards;
+}
+.animate-pulse-slow {
+  animation: pulse 4s ease-in-out infinite;
+}
+.animate-star {
+  animation: star 6s ease-in-out infinite;
+}
+.animate-spin-slower {
+  animation: spin-slower 90s linear infinite;
+}
+
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes float {
+  0% { transform: translateY(0px); opacity: 0.6; }
+  50% { transform: translateY(-20px); opacity: 1; }
+  100% { transform: translateY(0px); opacity: 0.6; }
+}
+@keyframes fade-in-slow {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-gradient-text {
+  background-size: 200% auto;
+  animation: gradient-text 6s linear infinite;
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-fade-in-slow {
+  animation: fade-in-slow 1.8s ease-out forwards;
+}
+.animate-pulse-slow {
+  animation: pulse 4s ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes float {
+  0% { transform: translateY(0px); opacity: 0.5; }
+  50% { transform: translateY(-15px); opacity: 1; }
+  100% { transform: translateY(0px); opacity: 0.5; }
+}
+.animate-gradient-text {
+  background-size: 300% auto;
+  animation: gradient-text 6s ease-in-out infinite;
+}
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+.animate-pulse-slow {
+  animation: pulse 5s ease-in-out infinite;
+}
