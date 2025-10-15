@@ -548,32 +548,31 @@ useEffect(() => {
 <HighlightsShowcase />
 
 
-{/* SECTION: GALERÍA */}
-<section id="galeria" className="relative bg-[#05010a] text-white overflow-hidden py-12">
-  <div className="w-full relative">
-    {/* Título */}
-    <div className="text-center mb-8 px-6">
-      <h2 className="text-3xl sm:text-4xl font-semibold tracking-wide text-white flex justify-center items-center gap-2">
+{/* SECTION: GALERÍA — estilo KRÜ con scroll horizontal + touch funcional */}
+<section id="galeria" className="relative bg-[#05010a] text-white overflow-hidden">
+  <div className="h-auto relative">
+    {/* título fijo */}
+    <div className="sticky top-0 pt-24 pb-8 z-10 text-left bg-[#05010a]/80 backdrop-blur-md">
+      <h2 className="text-3xl font-normal tracking-wide text-white pl-8 flex items-center gap-2">
         <span className="text-purple-500 text-3xl">{'>'}</span> Galería
       </h2>
-      <p className="text-gray-400 mt-2 text-sm sm:text-base">
+      <p className="text-gray-400 mt-1 text-sm pl-8">
         Momentos capturados, emociones reales. Desliza para ver más →
       </p>
     </div>
 
-    {/* Scroll container */}
+    {/* Contenedor de imágenes */}
     <div
       ref={scrollContainer}
-      className="flex gap-8 px-6 sm:px-10 pb-8 overflow-x-auto overflow-y-hidden
-                 snap-x snap-mandatory scrollbar-hide scroll-smooth
-                 touch-pan-x cursor-grab active:cursor-grabbing
-                 w-full"
-      style={{
-        WebkitOverflowScrolling: "touch",
-        overscrollBehaviorX: "contain",
-        overscrollBehaviorY: "none",
-        touchAction: "pan-x",
-      }}
+      className="
+        flex gap-8 px-12 py-12 w-max 
+        overflow-x-auto 
+        scrollbar-hide 
+        snap-x snap-mandatory 
+        touch-pan-x 
+        scroll-smooth
+        md:cursor-grab md:active:cursor-grabbing
+      "
     >
       {[
         { src: "/images/galeria1.jpg", title: "Torneo LATAM" },
@@ -586,34 +585,35 @@ useEffect(() => {
       ].map((item, index) => (
         <div
           key={index}
-          className="relative flex-shrink-0 w-[280px] sm:w-[340px] md:w-[400px] lg:w-[460px]
-                     h-[360px] sm:h-[420px] md:h-[460px]
-                     rounded-2xl overflow-hidden glass card-hover
-                     shadow-[0_0_40px_#7a00ff50] group snap-center
-                     transition-all duration-500 hover:scale-[1.05] hover:shadow-[0_0_70px_#7a00ff80]"
+          className="
+            relative flex-shrink-0 
+            w-[360px] h-[460px] 
+            rounded-2xl overflow-hidden 
+            glass card-hover 
+            shadow-[0_0_40px_#7a00ff50] 
+            group snap-center
+            md:w-[360px] md:h-[460px]
+            sm:w-[280px] sm:h-[360px]
+          "
         >
-          {/* Imagen */}
           <img
             src={item.src}
             alt={item.title}
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = "/images/placeholder.jpg";
-            }}
-            className="w-full h-full object-cover pointer-events-none transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700"
           />
 
-          {/* Overlay */}
-          <div className="absolute inset-0 flex flex-col justify-end items-center
-                          bg-gradient-to-t from-[#05010a]/80 to-transparent
-                          opacity-0 group-hover:opacity-100 transition-all duration-500
-                          pointer-events-none">
+          {/* Overlay neón con logo y texto */}
+          <div className="overlay relative flex flex-col justify-between items-center text-center p-4">
+            {/* Logo arriba a la izquierda */}
             <img
               src="/logosinnombre.png"
               alt="Logo"
-              className="absolute top-3 left-3 w-16 sm:w-20 md:w-24 drop-shadow-[0_0_25px_rgba(122,0,255,0.6)] pointer-events-auto"
+              className="absolute w-20 h-20 md:w-24 md:h-24 drop-shadow-[0_0_25px_rgba(122,0,255,0.6)]"
+              style={{ top: '-10px', left: '-10px' }}
             />
-            <h3 className="mb-6 text-white font-bold text-lg sm:text-xl tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] pointer-events-none">
+
+            {/* Título centrado */}
+            <h3 className="mt-auto text-white font-bold text-lg tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">
               {item.title}
             </h3>
           </div>
