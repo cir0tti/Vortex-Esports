@@ -102,8 +102,9 @@ export default function App() {
   const mouse = useRef({ x: 0.5, y: 0.5 });
   const cursorRef = useRef();
   const logoRef = useRef();
-  const scrollContainer = useRef();
+ const scrollContainer = useRef(null);
   const [loaded, setLoaded] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // inject styles, cursor, preloader timeline
 useEffect(() => {
@@ -380,24 +381,21 @@ useEffect(() => {
       )}
 
       
-{/* ✅ HEADER CENTRADO Y COMPACTO */}
+{/* ✅ HEADER CENTRADO Y CON MENÚ MÓVIL ANIMADO */}
 {loaded && (
   <header className="fixed top-0 left-0 w-full z-50 bg-[#0b0615]/70 backdrop-blur-lg border-b border-white/10">
-    <div className="max-w-6xl mx-auto flex items-center justify-center px-6 py-3 gap-12">
+    <div className="max-w-6xl mx-auto flex items-center justify-center px-6 py-3 gap-12 relative">
       
       {/* 🔹 Left menu */}
       <ul className="hidden md:flex items-center gap-8 text-sm uppercase font-semibold tracking-wide">
-        {["Esports", "Noticias", ""].map((item) => (
-          <li
-            key={item}
-            className="nav-item cursor-pointer hover:text-cyan-300 transition"
-          >
+        {["Esports", "Noticias"].map((item) => (
+          <li key={item} className="nav-item cursor-pointer hover:text-cyan-300 transition">
             {item}
           </li>
         ))}
       </ul>
 
-      {/* 🌀 Logo grande al centro */}
+      {/* 🌀 Logo */}
       <div className="flex items-center justify-center">
         <img
           src="/logohear.png"
@@ -409,33 +407,64 @@ useEffect(() => {
       {/* 🔹 Right menu */}
       <ul className="hidden md:flex items-center gap-8 text-sm uppercase font-semibold tracking-wide">
         {["Club", "Studios", "Tienda"].map((item) => (
-          <li
-            key={item}
-            className="nav-item cursor-pointer hover:text-cyan-300 transition"
-          >
+          <li key={item} className="nav-item cursor-pointer hover:text-cyan-300 transition">
             {item}
           </li>
         ))}
       </ul>
 
-      {/* 🍔 Hamburguesa solo en móviles */}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-6 text-gray-300 cursor-pointer hover:text-cyan-300 transition md:hidden absolute right-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
+      {/* 🍔 Hamburguesa (móviles) */}
+      <button
+        className="md:hidden absolute right-6 flex flex-col justify-between w-8 h-6 group z-[60]"
+        onClick={() => setMenuOpen((prev) => !prev)}
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M4 6h16M4 12h16M4 18h16"
-        />
-      </svg>
+        <span className={`block h-[2px] bg-cyan-300 rounded transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-[10px]" : ""}`} />
+        <span className={`block h-[2px] bg-cyan-300 rounded transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
+        <span className={`block h-[2px] bg-cyan-300 rounded transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-[10px]" : ""}`} />
+      </button>
     </div>
+
+    {/* 🌌 MENÚ DESPLEGABLE MÓVIL */}
+    <motion.div
+      initial={{ x: "100%" }}
+      animate={{ x: menuOpen ? "0%" : "100%" }}
+      transition={{ type: "spring", stiffness: 80, damping: 15 }}
+      className="fixed top-0 right-0 w-[80%] h-screen bg-[#080014]/95 backdrop-blur-2xl border-l border-cyan-500/20 shadow-[0_0_40px_rgba(0,191,255,0.3)] flex flex-col items-center justify-center space-y-10 text-lg uppercase font-semibold tracking-wider z-50"
+    >
+      {["Inicio", "Esports", "Noticias", "Club", "Studios", "Tienda"].map((link, i) => (
+        <motion.a
+          key={link}
+          href="#"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : 50 }}
+          transition={{ delay: i * 0.1, duration: 0.4 }}
+          className="text-gray-300 hover:text-cyan-300 relative group"
+        >
+          {link}
+          <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-cyan-400 to-purple-500 group-hover:w-full transition-all duration-300" />
+        </motion.a>
+      ))}
+
+      {/* 💎 Redes sociales */}
+      <div className="flex gap-6 mt-10">
+        {[
+          { icon: "fa-brands fa-instagram", color: "text-pink-400" },
+          { icon: "fa-brands fa-twitter", color: "text-cyan-400" },
+          { icon: "fa-brands fa-twitch", color: "text-purple-400" },
+        ].map((s, i) => (
+          <motion.i
+            key={i}
+            className={`${s.icon} ${s.color} text-2xl hover:scale-125 transition-transform duration-300`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: menuOpen ? 1 : 0, y: menuOpen ? 0 : 20 }}
+            transition={{ delay: 0.5 + i * 0.1 }}
+          />
+        ))}
+      </div>
+    </motion.div>
   </header>
 )}
+
 
 
 
@@ -548,79 +577,86 @@ useEffect(() => {
 <HighlightsShowcase />
 
 
-{/* SECTION: GALERÍA — estilo KRÜ con scroll horizontal + touch funcional */}
-<section id="galeria" className="relative bg-[#05010a] text-white overflow-hidden">
-  <div className="h-auto relative">
-    {/* título fijo */}
-    <div className="sticky top-0 pt-24 pb-8 z-10 text-left bg-[#05010a]/80 backdrop-blur-md">
-      <h2 className="text-3xl font-normal tracking-wide text-white pl-8 flex items-center gap-2">
-        <span className="text-purple-500 text-3xl">{'>'}</span> Galería
+{/* SECTION: GALERÍA — Desktop + Móvil/Tablet */}
+<section id="galeria" className="relative bg-[#05010a] text-white overflow-hidden selection:bg-purple-500/30">
+
+  {/* -------------------- VERSIÓN DESKTOP -------------------- */}
+  <div className="hidden md:block h-auto relative">
+    {/* TÍTULO FIJO */}
+    <div className="sticky top-0 pt-24 pb-8 z-10 bg-[#05010a]/80 backdrop-blur-md">
+      <h2 className="text-3xl font-semibold tracking-wide text-white pl-8 flex items-center gap-3">
+        <span className="text-purple-500 text-3xl animate-pulse">{'>'}</span> Galería
       </h2>
       <p className="text-gray-400 mt-1 text-sm pl-8">
-        Momentos capturados, emociones reales. Desliza para ver más →
+        Momentos capturados, emociones reales. <span className="text-purple-400">Desliza o usa las flechas →</span>
       </p>
     </div>
 
-    {/* Contenedor de imágenes */}
-    <div
-      ref={scrollContainer}
-      className="
-        flex gap-8 px-12 py-12 w-max 
-        overflow-x-auto 
-        scrollbar-hide 
-        snap-x snap-mandatory 
-        touch-pan-x 
-        scroll-smooth
-        md:cursor-grab md:active:cursor-grabbing
-      "
-    >
-      {[
-        { src: "/images/galeria1.jpg", title: "Torneo LATAM" },
-        { src: "/images/galeria2.jpg", title: "Entrenamiento" },
-        { src: "/images/galeria3.jpg", title: "Finales 2025" },
-        { src: "/images/galeria4.jpg", title: "Team Meeting" },
-        { src: "/images/galeria5.jpg", title: "Fan Event" },
-        { src: "/images/galeria6.jpg", title: "Media Day2" },
-        { src: "/images/galeria7.jpg", title: "Media Day3" },
-      ].map((item, index) => (
-        <div
-          key={index}
-          className="
-            relative flex-shrink-0 
-            w-[360px] h-[460px] 
-            rounded-2xl overflow-hidden 
-            glass card-hover 
-            shadow-[0_0_40px_#7a00ff50] 
-            group snap-center
-            md:w-[360px] md:h-[460px]
-            sm:w-[280px] sm:h-[360px]
-          "
-        >
-          <img
-            src={item.src}
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-700"
-          />
-
-          {/* Overlay neón con logo y texto */}
-          <div className="overlay relative flex flex-col justify-between items-center text-center p-4">
-            {/* Logo arriba a la izquierda */}
-            <img
-              src="/logosinnombre.png"
-              alt="Logo"
-              className="absolute w-20 h-20 md:w-24 md:h-24 drop-shadow-[0_0_25px_rgba(122,0,255,0.6)]"
-              style={{ top: '-10px', left: '-10px' }}
-            />
-
-            {/* Título centrado */}
-            <h3 className="mt-auto text-white font-bold text-lg tracking-wider drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">
-              {item.title}
-            </h3>
+    {/* Contenedor de imágenes (Desktop GSAP Scroll) */}
+    <div className="relative">
+      <div
+        ref={scrollContainer}
+        className="flex gap-8 px-12 py-12 w-max overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth touch-pan-x md:cursor-grab md:active:cursor-grabbing"
+      >
+        {[
+          { src: "/images/galeria1.jpg", title: "Torneo LATAM" },
+          { src: "/images/galeria2.jpg", title: "Entrenamiento" },
+          { src: "/images/galeria3.jpg", title: "Finales 2025" },
+          { src: "/images/galeria4.jpg", title: "Team Meeting" },
+          { src: "/images/galeria5.jpg", title: "Fan Event" },
+          { src: "/images/galeria6.jpg", title: "Media Day 2" },
+          { src: "/images/galeria7.jpg", title: "Media Day 3" },
+        ].map((item, index) => (
+          <div key={index} className="group galeria-card relative flex-shrink-0 w-[360px] h-[460px] rounded-2xl overflow-hidden snap-center backdrop-blur-sm border border-purple-500/10 shadow-[0_0_40px_#7a00ff40] transition-all duration-500 ease-out hover:scale-[1.05] hover:shadow-[0_0_60px_#7a00ff80] hover:rotate-[1deg] hover:-rotate-[1deg] md:w-[360px] md:h-[460px] sm:w-[280px] sm:h-[360px]">
+            <div className="relative w-full h-full overflow-hidden perspective-1000">
+              <img src={item.src} alt={item.title} className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-[1200ms] ease-out" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#05010a]/90 via-transparent to-transparent opacity-80"></div>
+            </div>
+            <div className="absolute bottom-0 left-0 w-full flex flex-col items-center justify-center text-center pb-6 translate-y-4 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out">
+              <img src="/logosinnombre.png" alt="Logo" className="w-16 h-16 drop-shadow-[0_0_25px_rgba(122,0,255,0.8)] mb-2 animate-float" />
+              <h3 className="text-lg font-semibold text-white tracking-wider drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]">{item.title}</h3>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   </div>
+
+  {/* -------------------- VERSIÓN MÓVIL/TABLET -------------------- */}
+  <div className="block md:hidden h-auto relative">
+    {/* TÍTULO */}
+    <div className="pt-24 pb-8 z-10 px-6">
+      <h2 className="text-3xl font-semibold tracking-wide text-white flex items-center gap-3">
+        <span className="text-purple-500 text-3xl animate-pulse">{'>'}</span> Galería
+      </h2>
+      <p className="text-gray-400 mt-1 text-sm">
+        Momentos capturados, emociones reales. <span className="text-purple-400">Desliza hacia los lados</span>
+      </p>
+    </div>
+
+    {/* Contenedor deslizable con scroll-snap */}
+    <div className="relative px-4">
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth touch-pan-x py-6 scrollbar-hide">
+        {[
+          { src: "/images/galeria1.jpg", title: "Torneo LATAM" },
+          { src: "/images/galeria2.jpg", title: "Entrenamiento" },
+          { src: "/images/galeria3.jpg", title: "Finales 2025" },
+          { src: "/images/galeria4.jpg", title: "Team Meeting" },
+          { src: "/images/galeria5.jpg", title: "Fan Event" },
+          { src: "/images/galeria6.jpg", title: "Media Day 2" },
+          { src: "/images/galeria7.jpg", title: "Media Day 3" },
+        ].map((item, index) => (
+          <div key={index} className="flex-shrink-0 w-72 h-96 snap-center rounded-2xl overflow-hidden relative">
+            <img src={item.src} alt={item.title} className="w-full h-full object-cover rounded-2xl" />
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-[#05010a]/80 via-transparent to-transparent px-3 py-2">
+              <h3 className="text-sm text-white font-semibold">{item.title}</h3>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
 </section>
 
 

@@ -280,3 +280,8 @@ html.lenis, html.lenis body {
 .animate-pulse-slow {
   animation: pulse 5s ease-in-out infinite;
 }
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,191,255,0.4); }
+  50% { box-shadow: 0 0 25px rgba(122,0,255,0.6); }
+}
